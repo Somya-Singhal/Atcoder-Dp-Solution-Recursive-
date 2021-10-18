@@ -1,0 +1,36 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+double solve(int max_tail,double pre_prob[],double prob[],int n)
+{
+    if(n==0)
+    return 1;
+    if(max_tail<=0)
+    return (double)pre_prob[n-1];
+    return (1-prob[n-1])*solve(max_tail-1,pre_prob,prob,n-1)+prob[n-1]*solve(max_tail,pre_prob,prob,n-1);
+}
+int main() {
+	int n;
+	cin>>n;
+	double prob[n],pre_prob[n];
+	for(int i=0;i<n;i++)
+	{
+	    cin>>prob[i];
+	}
+	pre_prob[0]=prob[0];
+	for(int i=1;i<n;i++)
+	{
+	    pre_prob[i]=pre_prob[i-1]*prob[i];
+	}
+	int max_tail;
+	if(n%2==0)
+	{
+	    max_tail=n/2-1;
+	}
+	else
+	{
+	    max_tail=n/2;
+	}
+	cout<<setprecision(10)<<solve(max_tail,pre_prob,prob,n);
+	return 0;
+}
